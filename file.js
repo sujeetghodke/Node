@@ -1,19 +1,22 @@
 const fs = require("fs");
 
-// fs.writeFileSync("./test.txt", "Hey there !");
+console.log("1");
+
+// fs.writeFileSync("./test.txt", "Hey there !");  //sync blocking
 
 // fs.writeFile("./test2.txt", "hey this is async !", (err) => {});
 
 // const result = fs.readFileSync("./hello.txt", "utf-8");
 // console.log(result);
 
-// fs.readFile("./hello.txt", "utf-8", (err, result) => {
-//   if (err) {
-//     console.log(err);
-//   } else {
-//     console.log(result);
-//   }
-// });
+fs.readFile("./hello.txt", "utf-8", (err, result) => {
+  //async - non blocking
+  if (err) {
+    console.log(err);
+  } else {
+    console.log(result);
+  }
+});
 
 // fs.appendFileSync("./hello.txt", "This is node environment\n");
 
@@ -22,4 +25,6 @@ const fs = require("fs");
 // fs.unlinkSync("./test2.txt");
 
 // console.log(fs.statSync("./copy.txt"));
-console.log(fs.statSync("./copy.txt").isFile());
+// console.log(fs.statSync("./copy.txt").isFile());
+
+console.log("2");
