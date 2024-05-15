@@ -32,11 +32,31 @@ app
   })
   .patch((req, res) => {
     //Edit the user with edit
-    return res.join({ status: "Pending" });
+    const id = Number(req.params.id);
+    const toUpdate = users.find((el) => el.id === id);
+    const index = users.indexOf(toUpdate);
+
+    Object.assign(toUpdate, req.body);
+
+    users[index] = toUpdate;
+
+    fs.writeFile("./MOCK_DATA.json", JSON.stringify(users), (err, data) => {
+      return res.json({ status: "Successfully update", user: toUpdate });
+    });
   })
+
   .delete((req, res) => {
     //Delete user with id
-    return res.json({ status: "Pending" });
+    const id = Number(req.params.id);
+    const toDelete = users.find((el) => el.id === id);
+    const index = users.indexOf(toDelete);
+    // console.log(index);
+
+    users.splice(index, 1);
+
+    fs.writeFile("./MOCK_DATA.json", JSON.stringify(users), (err, data) => {
+      return res.json({ status: "Successfully Deleted", id: id });
+    });
   });
 
 app.post("/api/users", (req, res) => {
