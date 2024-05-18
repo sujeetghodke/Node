@@ -8,6 +8,21 @@ const PORT = 8000;
 //Middleware - Plugin
 app.use(express.urlencoded({ extended: false }));
 
+app.use((req, res, next) => {
+  // console.log("This is middleware 1");
+  fs.appendFile(
+    "log.txt",
+    `\n${Date.now()} : ${req.method} : ${req.path}`,
+    (err, data) => {
+      next();
+    }
+  );
+});
+app.use((req, res, next) => {
+  console.log("This is middleware 2");
+  next();
+});
+
 //Routes
 app.get("/users", (req, res) => {
   const html = `
@@ -20,6 +35,7 @@ app.get("/users", (req, res) => {
 
 //Rest API
 app.get("/api/users", (req, res) => {
+  res.setHeader("X-myName", "Sujeet Ghodke");
   return res.json(users);
 });
 
@@ -28,14 +44,14 @@ app
   .get((req, res) => {
     const id = Number(req.params.id);
     const user = users.find((user) => user.id === id);
+    if (!user) return res.status(404).json({ error: "User not found" });
     return res.json(user);
   })
   .patch((req, res) => {
     //Edit the user with edit
-    const id = Number(req.params.id);
-    const toUpdate = users.find((el) => el.id === id);
-    const index = users.indexOf(toUpdate);
-
+    let id = Number(req.params.id);
+    let toUpdate = users.find((el) => el.id === id);
+    let index = users.indexOf(toUpdate);
     Object.assign(toUpdate, req.body);
 
     users[index] = toUpdate;
@@ -62,9 +78,19 @@ app
 app.post("/api/users", (req, res) => {
   //To create new users
   const body = req.body;
+  if (
+    !body ||
+    !body.first_name ||
+    !body.last_name ||
+    !body.email ||
+    !body.gender ||
+    !body.job_title
+  ) {
+    return res.status(400).json({ msg: "All fields are required.." });
+  }
   users.push({ ...body, id: users.length + 1 });
   fs.writeFile("./MOCK_DATA.json", JSON.stringify(users), (err, data) => {
-    return res.json({ status: "Success", id: users.length });
+    return res.status(201).json({ status: "Success", id: users.length });
   });
 });
 
