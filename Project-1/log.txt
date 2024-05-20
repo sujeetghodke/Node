@@ -36,3 +36,8 @@
 1716101698369 : GET : /api/users
 1716101892357 : DELETE : /api/users/66499414fa6fe2d5055a12c4
 1716101898629 : GET : /api/users
+1716190172543 : GET : /api/users
+1716190185523 : GET : /api/user
+1716190217438 : GET : /api/users
+1716190324202 : POST : /api/users
+1716190333934 : GET : /api/users
