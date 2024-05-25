@@ -1,0 +1,17 @@
+{
+  "name": "signup-page",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/index.js"
+  },
+  "author": "Sujeet Ghodke",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "hbs": "^4.2.0",
+    "mongoose": "^8.4.0",
+    "nodemon": "^3.1.1"
+  }
+}
